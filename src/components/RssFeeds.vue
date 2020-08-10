@@ -4,22 +4,21 @@
 <div class="hello">
   <h1>{{ msg }}</h1>
   <h2>{{ coite }}</h2>
-    <div class="container glide" id="foo">
-        <div class="glide__track" data-glide-el="track">
-          <ul class="glide__slides row">
-           </ul>
-        </div>
-        <div class="glide__arrows" data-glide-el="controls">
-           <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-           <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-         </div>
+    <div id="glide">
+      <vue-glide>
+        <vue-glide-slide v-for="i in 10" :key="i">
+        </vue-glide-slide>
+      </vue-glide>
     </div>
 
   <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
 </div>
 </template>
 
+<!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
+import { Glide, GlideSlide } from 'vue-glide-js'
+
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 const url = 'https://www.spiegel.de/kultur/index.rss';
 
@@ -30,32 +29,63 @@ fetch(proxyUrl + url)
     console.log(data);
     const items = data.querySelectorAll("item");
     let html = ``;
-    items.forEach(el => {
+    items.forEach((el, index) => {
+      //
+      // let mui = document.querySelectorAll("vue-slide-glide");
+      // console.log(mui);
+
+      if (index > 9) {
+        return false;
+      }
+
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
 
-      html +=
+      // console.log(indexOf{items});
+      // console.log(el);
+      console.log(index);
+
+      // console.log(index);
+
+      let parentSlide = document.querySelectorAll('[data-glide-index="' + `${index}` + '"]')[0];
+      console.log('miau');
+      console.log(parentSlide);
+      console.log('miaus');
+      // console.log(parentSlide[0]);
+      // console.log(parentSlide.index);
+      // console.log('foo');
+      // console.log('[data-glide-index="' + index + '"]');
+      // let parentSlide = document.querySelector('[data-glide-index="' + index + '"]');
+      // parentSlide.insertAdjacentHTML("beforeend", '<div id="slide"></div>');
+
+      // let parentDiv = document.querySelector('#slide');
+
+
+      // var newText = document.createTextNode('mui');
+
+      // console.log(imageLink);
+      html =
         `
-            <div class="col-3 glide__slide">
-                <img src="${imageLink}">
-                <h3>
-                  <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-                    ${title}
-                  </a>
-                </h3>
-            </div>
+          <img src="${imageLink}">
+          <h3>
+            <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+              ${title}
+            </a>
+          </h3>
       `;
+      // parentDiv.insertAdjacentHTML("beforeend", html);
+      parentSlide.insertAdjacentHTML("beforeend", html);
     });
-    var cont = document.querySelector('.row');
-    console.log(cont);
-    cont.insertAdjacentHTML("beforeend", html);
+    // console.log('muie rapid!');
+    // var cont = document.querySelector('.glide__slide');
   });
 
 export default {
   name: 'RssFeeds',
-  // components: {
-  //   VueRssParser
-  // },
+  components: {
+        [Glide.name]: Glide,
+        [GlideSlide.name]: GlideSlide
+      },
   data() {
     return {
       coite: 'muie',
