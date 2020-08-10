@@ -3,12 +3,19 @@
 <template>
 <div class="hello">
   <h1>{{ msg }}</h1>
-    <div id="glide">
-      <vue-glide>
-        <vue-glide-slide v-for="i in 10" :key="i">
-        </vue-glide-slide>
-      </vue-glide>
-    </div>
+  <div id="lumas">
+    <vue-glide
+      class="demo"
+      ref="slider"
+      type="carousel"
+    >
+    <vue-glide-slide v-for="i in 20" :key="i"></vue-glide-slide>
+    <template slot="control">
+        <button data-glide-dir="<">prev</button>
+        <button data-glide-dir=">">next</button>
+    </template>
+    </vue-glide>
+  </div>
 
   <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
 </div>
@@ -48,7 +55,7 @@ fetch(proxyUrl + url1)
     const items = data.querySelectorAll("item");
     let html = ``;
     items.forEach((el, index) => {
-      if (index > 9) {
+      if (index > 19) {
         return false;
       }
 
@@ -214,88 +221,70 @@ export default {
     //   width: 75%;
     //   max-width: 60rem;
     // }
-  }
+  // }
 
-  .row {
-    position: relative;
-    width: 100%;
-    display: flex;
-  }
+  // .row {
+  //   position: relative;
+  //   width: 100%;
+  //   display: flex;
+  // }
+  //
+  // .row [class^="col"] {
+  //   float: left;
+  //   margin: 0.5rem 2%;
+  //   min-height: 0.125rem;
+  // }
 
-  .row [class^="col"] {
-    float: left;
-    margin: 0.5rem 2%;
-    min-height: 0.125rem;
-  }
+  // .row::after {
+  //   content: "";
+  //   display: table;
+  //   clear: both;
+  // }
 
-  .row::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-  .col-1,
-  .col-2,
-  .col-3,
-  .col-4,
-  .col-5,
-  .col-6,
-  .col-7,
-  .col-8,
-  .col-9,
-  .col-10,
-  .col-11,
-  .col-12 {
-    width: $width;
-  }
-
-  .col-1-sm { width:($width / 12) - ($gutter * 11 / 12); }
-  .col-2-sm { width: ($width / 6) - ($gutter * 10 / 12); }
-  .col-3-sm { width: ($width / 4) - ($gutter * 9 / 12); }
-  .col-4-sm { width: ($width / 3) - ($gutter * 8 / 12); }
-  .col-5-sm { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
-  .col-6-sm { width: ($width / 2) - ($gutter * 6 / 12); }
-  .col-7-sm { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
-  .col-8-sm { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
-  .col-9-sm { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
-  .col-10-sm { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
-  .col-11-sm { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
-  .col-12-sm { width: $width; }
-
-  @media only screen and (min-width: $breakpoint-med) {
-    .col-1 { width:($width / 12) - ($gutter * 11 / 12); }
-    .col-2 { width: ($width / 6) - ($gutter * 10 / 12); }
-    .col-3 { width: ($width / 4) - ($gutter * 9 / 12); }
-    .col-4 { width: ($width / 3) - ($gutter * 8 / 12); }
-    .col-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
-    .col-6 { width: ($width / 2) - ($gutter * 6 / 12); }
-    .col-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
-    .col-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
-    .col-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
-    .col-10 { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
-    .col-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
-    .col-12 { width: $width; }
-
-    .hidden-sm {
-      display: block;
-    }
-  }
+  // .col-1,
+  // .col-2,
+  // .col-3,
+  // .col-4,
+  // .col-5,
+  // .col-6,
+  // .col-7,
+  // .col-8,
+  // .col-9,
+  // .col-10,
+  // .col-11,
+  // .col-12 {
+  //   width: $width;
+  // }
+  //
+  // .col-1-sm { width:($width / 12) - ($gutter * 11 / 12); }
+  // .col-2-sm { width: ($width / 6) - ($gutter * 10 / 12); }
+  // .col-3-sm { width: ($width / 4) - ($gutter * 9 / 12); }
+  // .col-4-sm { width: ($width / 3) - ($gutter * 8 / 12); }
+  // .col-5-sm { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
+  // .col-6-sm { width: ($width / 2) - ($gutter * 6 / 12); }
+  // .col-7-sm { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
+  // .col-8-sm { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
+  // .col-9-sm { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
+  // .col-10-sm { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
+  // .col-11-sm { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
+  // .col-12-sm { width: $width; }
+  //
+  // @media only screen and (min-width: $breakpoint-med) {
+  //   .col-1 { width:($width / 12) - ($gutter * 11 / 12); }
+  //   .col-2 { width: ($width / 6) - ($gutter * 10 / 12); }
+  //   .col-3 { width: ($width / 4) - ($gutter * 9 / 12); }
+  //   .col-4 { width: ($width / 3) - ($gutter * 8 / 12); }
+  //   .col-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
+  //   .col-6 { width: ($width / 2) - ($gutter * 6 / 12); }
+  //   .col-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
+  //   .col-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
+  //   .col-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
+  //   .col-10 { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
+  //   .col-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
+  //   .col-12 { width: $width; }
+  //
+  //   .hidden-sm {
+  //     display: block;
+  //   }
+  // }
 </style>
-
-
-
-
-
-
-<!--
-
-<script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
-</script> -->
