@@ -27,18 +27,21 @@ fetch(proxyUrl + url)
 
       html +=
         `
-        <article>
-          <img src="${imageLink}">
-          <h3>
-            <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-              ${title}
-            </a>
-          </h3>
-        </article>
+            <div class="col-3">
+                <img src="${imageLink}">
+                <h3>
+                  <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+                    ${title}
+                  </a>
+                </h3>
+            </div>
       `;
     });
-    document.body.insertAdjacentHTML("beforeend", html);
+    var cont = document.querySelector('.row');
+    console.log(cont);
+    cont.insertAdjacentHTML("beforeend", html);
   });
+
 
 
 export default {
