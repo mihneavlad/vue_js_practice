@@ -8,10 +8,12 @@
       type="carousel"
     >
     <vue-glide-slide v-for="i in 20" :key="i"></vue-glide-slide>
+    <!-- <div class="controls"> -->
     <template slot="control">
-        <font-awesome-icon data-glide-dir="<" icon="caret-left"/>
-        <font-awesome-icon data-glide-dir=">" icon="caret-right" />
+        <font-awesome-icon data-glide-dir="<" icon="caret-left" size="6x" class="back"/>
+        <font-awesome-icon data-glide-dir=">" icon="caret-right" size="6x" class="forward" />
     </template>
+    <!-- </div> -->
     </vue-glide>
   </div>
 
@@ -63,11 +65,12 @@ fetch(proxyUrl + url1)
       let title = `${el.querySelector("title").innerHTML}`;
 
       let parentSlide = document.querySelectorAll('[data-glide-index="' + `${index}` + '"]')[0];
+      console.log(parentSlide);
       html =
         `
           <img src="${imageLink}">
           <h3>
-            <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+            <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener" class="glidelink">
               ${title}
             </a>
           </h3>
@@ -100,116 +103,148 @@ export default {
   @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
   @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
 
-
-  // fonts
+  #app {
   $font-family: 'Lato', Helvetica, sans-serif;
   $font-weight-light: 300;
   $font-weight-regular: 400;
   $font-weight-heavy: 700;
   $font-height: 1.5;
+  $dark-grey: #FF00FF;
+
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  h1 {
+    font-size: 66px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .demo {
+    .glide {
+      &__slide {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+        height: 350px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        border-radius: 3px;
+        transition: all 0.3s;
+        // font-size: 12px;
+      }
+    }
+  }
+}
+// fonts
 
   // colors
-  $dark-grey: #FF00FF;
 
   // universal
 
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    top: 0;
-    font-size: 100%;
-  }
+  // html,
+  // body {
+  //   height: 100%;
+  //   width: 100%;
+  //   margin: 0;
+  //   padding: 0;
+  //   left: 0;
+  //   top: 0;
+  //   font-size: 100%;
+  // }
 
-  * {
-    font-family: $font-family;
-    color: $dark-grey;
-    line-height: $font-height;
-  }
+  // * {
+  //   font-family: $font-family;
+  //   color: $dark-grey;
+  //   line-height: $font-height;
+  // }
 
   // typography
 
-  h1 {
-    font-size: 2.5rem;
-  }
+  // h1 {
+  //   font-size: 2.5rem;
+  // }
+  //
+  // h2 {
+  //   font-size: 2rem;
+  // }
+  //
+  // h3 {
+  //   font-size: 1.375rem;
+  // }
+  //
+  // h4 {
+  //   font-size: 1.125rem;
+  // }
+  //
+  // h5 {
+  //   font-size: 1rem;
+  // }
+  //
+  // h6 {
+  //   font-size: 0.875rem;
+  // }
+  //
+  // p {
+  //   font-size: 1.125rem;
+  //   font-weight: 200;
+  //   line-height: 1.8;
+  // }
 
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.375rem;
-  }
-
-  h4 {
-    font-size: 1.125rem;
-  }
-
-  h5 {
-    font-size: 1rem;
-  }
-
-  h6 {
-    font-size: 0.875rem;
-  }
-
-  p {
-    font-size: 1.125rem;
-    font-weight: 200;
-    line-height: 1.8;
-  }
-
-  .font-light {
-    font-weight: $font-weight-light;
-  }
-
-  .font-regular {
-    font-weight: $font-weight-regular;
-  }
-
-  .font-heavy {
-    font-weight: $font-weight-heavy;
-  }
+  // .font-light {
+  //   font-weight: $font-weight-light;
+  // }
+  //
+  // .font-regular {
+  //   font-weight: $font-weight-regular;
+  // }
+  //
+  // .font-heavy {
+  //   font-weight: $font-weight-heavy;
+  // }
 
   // utility
 
-  .left {
-    text-align: left;
-  }
-
-  .right {
-    text-align: right;
-  }
-
-  .center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .justify {
-    text-align: justify;
-  }
-
-  .hidden-sm {
-    display: none;
-  }
+  // .left {
+  //   text-align: left;
+  // }
+  //
+  // .right {
+  //   text-align: right;
+  // }
+  //
+  // .center {
+  //   text-align: center;
+  //   margin-left: auto;
+  //   margin-right: auto;
+  // }
+  //
+  // .justify {
+  //   text-align: justify;
+  // }
+  //
+  // .hidden-sm {
+  //   display: none;
+  // }
 
   // grid
 
-  $width: 96%;
-  $gutter: 4%;
-  $breakpoint-small: 33.75em; // 540px
-  $breakpoint-med: 45em; // 720px
-  $breakpoint-large: 60em; // 960px
-
-  .container {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+  // $width: 96%;
+  // $gutter: 4%;
+  // $breakpoint-small: 33.75em; // 540px
+  // $breakpoint-med: 45em; // 720px
+  // $breakpoint-large: 60em; // 960px
+  //
+  // .container {
+  //   width: 90%;
+  //   margin-left: auto;
+  //   margin-right: auto;
 
     // @media only screen and (min-width: $breakpoint-small) {
     //   width: 80%;
