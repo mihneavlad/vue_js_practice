@@ -19,10 +19,25 @@
 <script>
 import { Glide, GlideSlide } from 'vue-glide-js'
 
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const url = 'https://www.spiegel.de/kultur/index.rss';
+let feeds = [
+  'https://www.spiegel.de/schlagzeilen/index.rss',
+  'https://www.spiegel.de/politik/index.rss',
+  'https://www.spiegel.de/wirtschaft/index.rss',
+  'https://www.spiegel.de/panorama/index.rss',
+  'https://www.spiegel.de/kultur/index.rss',
+  'https://www.spiegel.de/netzwelt/index.rss',
+  'https://www.spiegel.de/wissenschaft/index.rss',
+  'https://www.spiegel.de/gesundheit/index.rss',
+];
 
-fetch(proxyUrl + url)
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+// const url = 'https://www.spiegel.de/kultur/index.rss';
+
+for (let i = 0; i < 8; i++) {
+  let url1 = feeds[`${i}`];
+  console.log(url1);
+
+fetch(proxyUrl + url1)
   .then(response => response.text())
   .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
   .then(data => {
@@ -30,10 +45,6 @@ fetch(proxyUrl + url)
     const items = data.querySelectorAll("item");
     let html = ``;
     items.forEach((el, index) => {
-      //
-      // let mui = document.querySelectorAll("vue-slide-glide");
-      // console.log(mui);
-
       if (index > 9) {
         return false;
       }
@@ -41,29 +52,7 @@ fetch(proxyUrl + url)
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
 
-      // console.log(indexOf{items});
-      // console.log(el);
-      console.log(index);
-
-      // console.log(index);
-
       let parentSlide = document.querySelectorAll('[data-glide-index="' + `${index}` + '"]')[0];
-      console.log('miau');
-      console.log(parentSlide);
-      console.log('miaus');
-      // console.log(parentSlide[0]);
-      // console.log(parentSlide.index);
-      // console.log('foo');
-      // console.log('[data-glide-index="' + index + '"]');
-      // let parentSlide = document.querySelector('[data-glide-index="' + index + '"]');
-      // parentSlide.insertAdjacentHTML("beforeend", '<div id="slide"></div>');
-
-      // let parentDiv = document.querySelector('#slide');
-
-
-      // var newText = document.createTextNode('mui');
-
-      // console.log(imageLink);
       html =
         `
           <img src="${imageLink}">
@@ -73,12 +62,10 @@ fetch(proxyUrl + url)
             </a>
           </h3>
       `;
-      // parentDiv.insertAdjacentHTML("beforeend", html);
       parentSlide.insertAdjacentHTML("beforeend", html);
     });
-    // console.log('muie rapid!');
-    // var cont = document.querySelector('.glide__slide');
   });
+}
 
 export default {
   name: 'RssFeeds',
