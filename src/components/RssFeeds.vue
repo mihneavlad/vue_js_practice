@@ -1,11 +1,20 @@
+<!-- <link rel="stylesheet" href="node_modules/@glidejs/glide/dist/css/glide.core.min.css"> -->
+
 <template>
 <div class="hello">
   <h1>{{ msg }}</h1>
   <h2>{{ coite }}</h2>
-    <div class="container" id="foo">
-        <div class="row">
+    <div class="container glide" id="foo">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides row">
+           </ul>
         </div>
+        <div class="glide__arrows" data-glide-el="controls">
+           <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+           <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+         </div>
     </div>
+
   <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
 </div>
 </template>
@@ -27,7 +36,7 @@ fetch(proxyUrl + url)
 
       html +=
         `
-            <div class="col-3">
+            <div class="col-3 glide__slide">
                 <img src="${imageLink}">
                 <h3>
                   <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
@@ -42,8 +51,6 @@ fetch(proxyUrl + url)
     cont.insertAdjacentHTML("beforeend", html);
   });
 
-
-
 export default {
   name: 'RssFeeds',
   // components: {
@@ -57,11 +64,16 @@ export default {
   }
 }
 </script>
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+
+  <!-- Add "scoped" attribute to limit
+  CSS to this component only -->
   <style lang="scss" scoped>
   // SIMPLE GRID - SASS/SCSS
 
   @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+  @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+  @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
+
 
   // fonts
   $font-family: 'Lato', Helvetica, sans-serif;
@@ -173,19 +185,20 @@ export default {
     margin-left: auto;
     margin-right: auto;
 
-    @media only screen and (min-width: $breakpoint-small) {
-      width: 80%;
-    }
+    // @media only screen and (min-width: $breakpoint-small) {
+    //   width: 80%;
+    // }
 
-    @media only screen and (min-width: $breakpoint-large) {
-      width: 75%;
-      max-width: 60rem;
-    }
+    // @media only screen and (min-width: $breakpoint-large) {
+    //   width: 75%;
+    //   max-width: 60rem;
+    // }
   }
 
   .row {
     position: relative;
     width: 100%;
+    display: flex;
   }
 
   .row [class^="col"] {
