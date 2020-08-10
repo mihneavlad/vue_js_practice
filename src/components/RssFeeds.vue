@@ -37,14 +37,30 @@ fetch(proxyUrl + url)
     const items = data.querySelectorAll("item");
     let html = ``;
     items.forEach(el => {
+      console.log(el);
+      console.log('fff');
+      console.log(`${el.querySelector("title").innerHTML}`);
+      console.log(`${el.querySelector("link").innerHTML}`);
+      console.log(`${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`);
+      console.log('boo');
+
+      let enclosure = `${el.getElementsByTagName("enclosure")}`;
+      let arr = Array.from(enclosure)
+      let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
+      // let link = enclosure.getAttribute('url')
+      // console.log('miau');
+      // console.log(enclosure);
+      // console.log(arr);
+
+
       html += `
         <article>
-          <img src="${el.querySelector("link").innerHTML}/image/large.png" alt="">
-          <h2>
+          <img src="${imageLink}">
+          <h3>
             <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
               ${el.querySelector("title").innerHTML}
             </a>
-          </h2>
+          </h3>
         </article>
       `;
     });
