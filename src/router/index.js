@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import RssFeeds from '@/components/RssFeeds'
-import HelloWorld from '@/components/HelloWorld'
+import Lumas from '@/components/Lumas'
 
 Vue.use(Router)
 
@@ -10,13 +9,8 @@ export default new Router({
   routes: [
     {
       path: '',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/rss/',
-      name: 'RssFeeds',
-      component: RssFeeds
+      name: 'Lumas',
+      component: Lumas
     }
   ]
 })

@@ -3,7 +3,6 @@
 <template>
 <div class="hello">
   <h1>{{ msg }}</h1>
-  <h2>{{ coite }}</h2>
     <div id="glide">
       <vue-glide>
         <vue-glide-slide v-for="i in 10" :key="i">
@@ -15,27 +14,31 @@
 </div>
 </template>
 
+
+
+
+
 <!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
 import { Glide, GlideSlide } from 'vue-glide-js'
 
 let feeds = [
-  'https://www.spiegel.de/schlagzeilen/index.rss',
-  'https://www.spiegel.de/politik/index.rss',
-  'https://www.spiegel.de/wirtschaft/index.rss',
-  'https://www.spiegel.de/panorama/index.rss',
-  'https://www.spiegel.de/kultur/index.rss',
-  'https://www.spiegel.de/netzwelt/index.rss',
-  'https://www.spiegel.de/wissenschaft/index.rss',
-  'https://www.spiegel.de/gesundheit/index.rss',
+  // 'https://www.spiegel.de/schlagzeilen/index.rss',
+  // 'https://www.spiegel.de/politik/index.rss',
+  // 'https://www.spiegel.de/wirtschaft/index.rss',
+  // 'https://www.spiegel.de/panorama/index.rss',
+  // 'https://www.spiegel.de/kultur/index.rss',
+  // 'https://www.spiegel.de/netzwelt/index.rss',
+  // 'https://www.spiegel.de/wissenschaft/index.rss',
+  // 'https://www.spiegel.de/gesundheit/index.rss',
 ];
 
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-// const url = 'https://www.spiegel.de/kultur/index.rss';
+const url1 = 'https://www.spiegel.de/gesundheit/index.rss';
 
-for (let i = 0; i < 8; i++) {
-  let url1 = feeds[`${i}`];
-  console.log(url1);
+// for (let i = 0; i < 8; i++) {
+  // let url1 = feeds[`${i}`];
+console.log(proxyUrl + url1);
 
 fetch(proxyUrl + url1)
   .then(response => response.text())
@@ -48,6 +51,8 @@ fetch(proxyUrl + url1)
       if (index > 9) {
         return false;
       }
+
+
 
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
@@ -65,17 +70,16 @@ fetch(proxyUrl + url1)
       parentSlide.insertAdjacentHTML("beforeend", html);
     });
   });
-}
+// }
 
 export default {
-  name: 'RssFeeds',
+  name: 'Lumas',
   components: {
         [Glide.name]: Glide,
         [GlideSlide.name]: GlideSlide
       },
   data() {
     return {
-      coite: 'muie',
       msg: 'Stories that might catch your interest'
     }
   }
@@ -277,3 +281,21 @@ export default {
     }
   }
 </style>
+
+
+
+
+
+
+<!--
+
+<script>
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  }
+}
+</script> -->
