@@ -1,5 +1,3 @@
-<!-- <link rel="stylesheet" href="node_modules/@glidejs/glide/dist/css/glide.core.min.css"> -->
-
 <template>
 <div class="hello">
   <h1>{{ msg }}</h1>
@@ -11,8 +9,8 @@
     >
     <vue-glide-slide v-for="i in 20" :key="i"></vue-glide-slide>
     <template slot="control">
-        <button data-glide-dir="<">prev</button>
-        <button data-glide-dir=">">next</button>
+        <font-awesome-icon data-glide-dir="<" icon="caret-left"/>
+        <font-awesome-icon data-glide-dir=">" icon="caret-right" />
     </template>
     </vue-glide>
   </div>

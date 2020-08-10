@@ -4,8 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import VueGlide from 'vue-glide-js'
 import 'vue-glide-js/dist/vue-glide.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCaretLeft, faCaretRight, fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import router from './router'
+
+library.add(faCaretLeft, faCaretRight, fas)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
