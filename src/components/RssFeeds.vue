@@ -2,17 +2,14 @@
 <div class="hello">
   <h1>{{ msg }}</h1>
   <h2>{{ coite }}</h2>
+    <div class="container" id="foo">
+        <div class="row">
+        </div>
+    </div>
   <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
-  <ul>
-    <li>
-      <a href="http://router.vuejs.org/" target="_blank">
-        muie-rapid
-
-      </a>
-    </li>
-  </ul>
 </div>
 </template>
+
 <script>
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 const url = 'https://www.spiegel.de/kultur/index.rss';
