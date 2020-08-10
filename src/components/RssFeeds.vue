@@ -1,31 +1,19 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>{{ coite }}</h2>
-    <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          muie-rapid
+<div class="hello">
+  <h1>{{ msg }}</h1>
+  <h2>{{ coite }}</h2>
+  <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
+  <ul>
+    <li>
+      <a href="http://router.vuejs.org/" target="_blank">
+        muie-rapid
 
-        </a>
-      </li>
-    </ul>
-  </div>
+      </a>
+    </li>
+  </ul>
+</div>
 </template>
-
-
 <script>
-
-// import VueRssParser from "vue-rss-parser";
-
-
-
-console.log('muie');
-
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 const url = 'https://www.spiegel.de/kultur/index.rss';
 
@@ -37,28 +25,16 @@ fetch(proxyUrl + url)
     const items = data.querySelectorAll("item");
     let html = ``;
     items.forEach(el => {
-      console.log(el);
-      console.log('fff');
-      console.log(`${el.querySelector("title").innerHTML}`);
-      console.log(`${el.querySelector("link").innerHTML}`);
-      console.log(`${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`);
-      console.log('boo');
-
-      let enclosure = `${el.getElementsByTagName("enclosure")}`;
-      let arr = Array.from(enclosure)
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
-      // let link = enclosure.getAttribute('url')
-      // console.log('miau');
-      // console.log(enclosure);
-      // console.log(arr);
+      let title = `${el.querySelector("title").innerHTML}`;
 
-
-      html += `
+      html +=
+        `
         <article>
           <img src="${imageLink}">
           <h3>
             <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-              ${el.querySelector("title").innerHTML}
+              ${title}
             </a>
           </h3>
         </article>
@@ -73,35 +49,28 @@ export default {
   // components: {
   //   VueRssParser
   // },
-  data () {
-    console.log('miau');
-    console.log(proxyUrl);
-    console.log(proxyUrl + url);
+  data() {
     return {
-      // feedUrl: proxyUrl + url,
-      // name: "",
-      // limit: 5,
       coite: 'muie',
       msg: 'Stories that might catch your interest'
     }
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style lang="sass" scoped>
+  h1, h2
+    font-weight: normal
+
+  ul
+    list-style-type: none
+    padding: 0
+
+  li
+    display: inline-block
+    margin: 0 10px
+
+  a
+    color: #42b983
+
 </style>
