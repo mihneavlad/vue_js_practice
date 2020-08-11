@@ -1,15 +1,24 @@
 <template>
 <div class="hello">
   <!-- <h1>{{ msg }}</h1> -->
-  <div id="lumas">
+  <div id="app">
     <template>
       <div class="container">
+        <b-form-select
+           v-model="selected"
+           :options="options"
+           class="mb-3"
+           value-field="item"
+           text-field="name"
+           @change="onChange"
+
+         ></b-form-select>
+         <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
         <b-carousel
           id="carousel-1"
           v-model="slide"
           :interval="10000"
           controls
-          indicators
           img-width="520"
           img-height="250"
           style="text-shadow: 1px 1px 2px #333;"
@@ -36,11 +45,10 @@
 
 <!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
-import { Glide, GlideSlide } from 'vue-glide-js'
 
-let feeds = [
-  // 'https://www.spiegel.de/schlagzeilen/index.rss',
-  // 'https://www.spiegel.de/politik/index.rss',
+const feeds = [
+  'https://www.spiegel.de/schlagzeilen/index.rss',
+  'https://www.spiegel.de/politik/index.rss',
   // 'https://www.spiegel.de/wirtschaft/index.rss',
   // 'https://www.spiegel.de/panorama/index.rss',
   // 'https://www.spiegel.de/kultur/index.rss',
@@ -50,13 +58,16 @@ let feeds = [
 ];
 
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const url1 = 'https://www.spiegel.de/gesundheit/index.rss';
 
-// for (let i = 0; i < 8; i++) {
-  // let url1 = feeds[`${i}`];
-console.log(proxyUrl + url1);
 
-fetch(proxyUrl + url1)
+// const url = 'https://www.spiegel.de/schlagzeilen/index.rss';
+// const url1 = 'https://www.spiegel.de/politik/index.rss';
+
+feeds.forEach ((feed, index) => {
+  console.log(feed);
+  console.log(index);
+
+fetch(proxyUrl + feed)
   .then(response => response.text())
   .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
   .then(data => {
@@ -69,42 +80,52 @@ fetch(proxyUrl + url1)
       tile.setAttribute('data-slide-index', `${i}`);
     });
 
-    items.forEach((el, index) => {
-      if (index > 4) {
+    items.forEach((el, i) => {
+      if (i > 4) {
         return;
       }
 
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
-      let parentSlide = document.querySelector('[data-slide-index="' + `${index}` + '"]');
-      console.log(parentSlide);
+      let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
+      // console.log(parentSlide);
       // console.log(parentSlide.firstElementChild.innerHTML);
       let img = parentSlide.firstElementChild;
-      console.log(img);
       img.src = imageLink;
 
-      let html =
-      `
-        <h3 class="article-title">
-        <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-                 ${title}
-        </a>
-        </h3>
-       `;
-       parentSlide.insertAdjacentHTML("beforeend", html);
+      // let html =
+      // `
+      //   <h3 class="article-title mt-3">
+      //   <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+      //            ${title}
+      //   </a>
+      //   </h3>
+      //  `;
+      //  parentSlide.insertAdjacentHTML("beforeend", html);
     });
   });
-
-
 // }
+// }
+});
+console.log(feeds[0]);
+console.log('mai');
 export default {
   data() {
     return {
+      selected: feeds[0],
+        options: [
+          { item: feeds[0], name: 'Option A' },
+          { item: feeds[1], name: 'Option B' },
+        ],
       slide: 0,
       sliding: null,
     }
   },
   methods: {
+    onChange(event) {
+      console.log('changed!');
+      console.log(event);
+    },
     onSlideStart(slide) {
       this.sliding = true
     },
@@ -120,5 +141,8 @@ export default {
 <style lang="scss" scoped>
   @import 'node_modules/bootstrap/scss/bootstrap';
   @import 'node_modules/bootstrap-vue/src/index.scss';
+  #app {
+    text-align: center;
+  }
 
 </style>
