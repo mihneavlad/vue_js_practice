@@ -1,20 +1,29 @@
 <template>
 <div class="hello">
-  <h1>{{ msg }}</h1>
+  <!-- <h1>{{ msg }}</h1> -->
   <div id="lumas">
-    <vue-glide
-      class="demo"
-      ref="slider"
-      type="carousel"
-    >
-    <vue-glide-slide v-for="i in 20" :key="i"></vue-glide-slide>
-    <!-- <div class="controls"> -->
-    <template slot="control">
-        <font-awesome-icon data-glide-dir="<" icon="caret-left" size="6x" class="back"/>
-        <font-awesome-icon data-glide-dir=">" icon="caret-right" size="6x" class="forward" />
+    <template>
+      <div class="container">
+        <b-carousel
+          id="carousel-1"
+          v-model="slide"
+          :interval="10000"
+          controls="true"
+          img-width="520"
+          img-height="250"
+          style="text-shadow: 1px 1px 2px #333;"
+          @sliding-start="onSlideStart"
+          @sliding-end="onSlideEnd"
+        >
+          <!-- Text slides with image -->
+          <b-carousel-slide
+            v-for="i in 5" :key="i"
+            caption="First slide"
+            img-src="https://picsum.photos/520/250/?image=52"
+          ></b-carousel-slide>
+        </b-carousel>
+      </div>
     </template>
-    <!-- </div> -->
-    </vue-glide>
   </div>
 
   <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
@@ -54,41 +63,96 @@ fetch(proxyUrl + url1)
     console.log(data);
     const items = data.querySelectorAll("item");
     let html = ``;
+
+    let tiles = document.querySelectorAll('.carousel-item');
+    tiles.forEach((tile, i) => {
+      tile.setAttribute('data-slide-index', `${i}`);
+    });
+
     items.forEach((el, index) => {
-      if (index > 19) {
-        return false;
+      // if (index > 2) {
+      //   return false;
+      // }
+      if (index > 4) {
+        return;
       }
-
-
 
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
 
-      let parentSlide = document.querySelectorAll('[data-glide-index="' + `${index}` + '"]')[0];
+
+      // console.log(imageLink);
+      // console.log('[aria-posinset="' + `${index}` + '"]');
+      // console.log('[data-glide-index="' + `${index}` + '"]');
+      // let parentSlide = document.querySelectorAll('[data-glide-index="' + `${index}` + '"]')[0];
+
+      // console.log('miorlau');
+      // console.log('[data-slide-index="0"]');
+      // console.log('[data-slide-index="' + `${index}` + '"]');
+      //
+      // let parentSlide = document.querySelector('[data-slide-index="0"]');
+      // let parentSlide0 = document.querySelector('[data-slide-index="5"]');
+      let parentSlide = document.querySelector('[data-slide-index="' + `${index}` + '"]');
       console.log(parentSlide);
-      html =
-        `
-          <img src="${imageLink}">
-          <h3>
-            <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener" class="glidelink">
-              ${title}
-            </a>
-          </h3>
-      `;
-      parentSlide.insertAdjacentHTML("beforeend", html);
+      // console.log(parentSlide.firstElementChild.innerHTML);
+      let img = parentSlide.firstElementChild;
+      img.src = imageLink
+      console.log(img);
+      // let parentSlide = document.querySelector('.carousel-inner');
+      // console.log('bar');
+
+      // let tiles = document.querySelectorAll('.carousel-item');
+      // tiles.forEach(tile => {
+      //   console.log(imageLink);
+      //   console.log(imgLink);
+      // })
+
+      // var tileContainer = parentSlide.firstElementChild;
+      // console.log(tileContainer);
+      // console.log('foo');
+      // console.log(imgLink);
+      // console.log('miau');
+      // imgLink.src = imageLink;
+      // var caption = document.querySelector('.carousel-caption').firstElementChild;
+      // caption.innerHTML = title;
+      // console.log('miau');
+      // let nextSlide = tileContainer.firstElementSibling;
+      // console.log(nextSlide);
+      // let nextSlide = tileContainer.nextElementSibling;
+
+
+
+      // html =
+      //   `
+
+      //     <img src="${imageLink}">
+      //     <h3>
+      //       <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener" class="glidelink">
+      //         ${title}
+      //       </a>
+      //     <p>foo</p>
+      //     </h3>
+      // `;
+      // parentSlide.insertAdjacentHTML("beforeend", html);
     });
   });
-// }
 
+
+// }
 export default {
-  name: 'Lumas',
-  components: {
-        [Glide.name]: Glide,
-        [GlideSlide.name]: GlideSlide
-      },
   data() {
     return {
-      msg: 'Stories that might catch your interest'
+      slide: 0,
+      sliding: null,
+      // imageLink: `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`
+    }
+  },
+  methods: {
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
     }
   }
 }
@@ -96,228 +160,13 @@ export default {
 
   <!-- Add "scoped" attribute to limit
   CSS to this component only -->
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
   // SIMPLE GRID - SASS/SCSS
 
-  @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
-  @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
-  @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
+  // @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+  // @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+  // @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
+  @import 'node_modules/bootstrap/scss/bootstrap';
+  @import 'node_modules/bootstrap-vue/src/index.scss';
 
-  #app {
-  $font-family: 'Lato', Helvetica, sans-serif;
-  $font-weight-light: 300;
-  $font-weight-regular: 400;
-  $font-weight-heavy: 700;
-  $font-height: 1.5;
-  $dark-grey: #FF00FF;
-
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  h1 {
-    font-size: 66px;
-  }
-
-  .controls {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .demo {
-    .glide {
-      &__slide {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #ccc;
-        height: 350px;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        border-radius: 3px;
-        transition: all 0.3s;
-        // font-size: 12px;
-      }
-    }
-  }
-}
-// fonts
-
-  // colors
-
-  // universal
-
-  // html,
-  // body {
-  //   height: 100%;
-  //   width: 100%;
-  //   margin: 0;
-  //   padding: 0;
-  //   left: 0;
-  //   top: 0;
-  //   font-size: 100%;
-  // }
-
-  // * {
-  //   font-family: $font-family;
-  //   color: $dark-grey;
-  //   line-height: $font-height;
-  // }
-
-  // typography
-
-  // h1 {
-  //   font-size: 2.5rem;
-  // }
-  //
-  // h2 {
-  //   font-size: 2rem;
-  // }
-  //
-  // h3 {
-  //   font-size: 1.375rem;
-  // }
-  //
-  // h4 {
-  //   font-size: 1.125rem;
-  // }
-  //
-  // h5 {
-  //   font-size: 1rem;
-  // }
-  //
-  // h6 {
-  //   font-size: 0.875rem;
-  // }
-  //
-  // p {
-  //   font-size: 1.125rem;
-  //   font-weight: 200;
-  //   line-height: 1.8;
-  // }
-
-  // .font-light {
-  //   font-weight: $font-weight-light;
-  // }
-  //
-  // .font-regular {
-  //   font-weight: $font-weight-regular;
-  // }
-  //
-  // .font-heavy {
-  //   font-weight: $font-weight-heavy;
-  // }
-
-  // utility
-
-  // .left {
-  //   text-align: left;
-  // }
-  //
-  // .right {
-  //   text-align: right;
-  // }
-  //
-  // .center {
-  //   text-align: center;
-  //   margin-left: auto;
-  //   margin-right: auto;
-  // }
-  //
-  // .justify {
-  //   text-align: justify;
-  // }
-  //
-  // .hidden-sm {
-  //   display: none;
-  // }
-
-  // grid
-
-  // $width: 96%;
-  // $gutter: 4%;
-  // $breakpoint-small: 33.75em; // 540px
-  // $breakpoint-med: 45em; // 720px
-  // $breakpoint-large: 60em; // 960px
-  //
-  // .container {
-  //   width: 90%;
-  //   margin-left: auto;
-  //   margin-right: auto;
-
-    // @media only screen and (min-width: $breakpoint-small) {
-    //   width: 80%;
-    // }
-
-    // @media only screen and (min-width: $breakpoint-large) {
-    //   width: 75%;
-    //   max-width: 60rem;
-    // }
-  // }
-
-  // .row {
-  //   position: relative;
-  //   width: 100%;
-  //   display: flex;
-  // }
-  //
-  // .row [class^="col"] {
-  //   float: left;
-  //   margin: 0.5rem 2%;
-  //   min-height: 0.125rem;
-  // }
-
-  // .row::after {
-  //   content: "";
-  //   display: table;
-  //   clear: both;
-  // }
-
-  // .col-1,
-  // .col-2,
-  // .col-3,
-  // .col-4,
-  // .col-5,
-  // .col-6,
-  // .col-7,
-  // .col-8,
-  // .col-9,
-  // .col-10,
-  // .col-11,
-  // .col-12 {
-  //   width: $width;
-  // }
-  //
-  // .col-1-sm { width:($width / 12) - ($gutter * 11 / 12); }
-  // .col-2-sm { width: ($width / 6) - ($gutter * 10 / 12); }
-  // .col-3-sm { width: ($width / 4) - ($gutter * 9 / 12); }
-  // .col-4-sm { width: ($width / 3) - ($gutter * 8 / 12); }
-  // .col-5-sm { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
-  // .col-6-sm { width: ($width / 2) - ($gutter * 6 / 12); }
-  // .col-7-sm { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
-  // .col-8-sm { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
-  // .col-9-sm { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
-  // .col-10-sm { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
-  // .col-11-sm { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
-  // .col-12-sm { width: $width; }
-  //
-  // @media only screen and (min-width: $breakpoint-med) {
-  //   .col-1 { width:($width / 12) - ($gutter * 11 / 12); }
-  //   .col-2 { width: ($width / 6) - ($gutter * 10 / 12); }
-  //   .col-3 { width: ($width / 4) - ($gutter * 9 / 12); }
-  //   .col-4 { width: ($width / 3) - ($gutter * 8 / 12); }
-  //   .col-5 { width: ($width / (12 / 5)) - ($gutter * 7 / 12); }
-  //   .col-6 { width: ($width / 2) - ($gutter * 6 / 12); }
-  //   .col-7 { width: ($width / (12 / 7)) - ($gutter * 5 / 12); }
-  //   .col-8 { width: ($width / (12 / 8)) - ($gutter * 4 / 12); }
-  //   .col-9 { width: ($width / (12 / 9)) - ($gutter * 3 / 12); }
-  //   .col-10 { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
-  //   .col-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
-  //   .col-12 { width: $width; }
-  //
-  //   .hidden-sm {
-  //     display: block;
-  //   }
-  // }
 </style>
