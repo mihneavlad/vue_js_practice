@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import Lumas from './components/Lumas'
 import VueGlide from 'vue-glide-js'
 import 'vue-glide-js/dist/vue-glide.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -28,6 +29,6 @@ Vue.use(IconsPlugin)
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: { App, Lumas },
   template: '<App/>'
 })

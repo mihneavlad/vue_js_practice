@@ -46,6 +46,9 @@
 <!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
 
+let foo = document.querySelector('.container');
+console.log(foo);
+
 const feeds = [
   'https://www.spiegel.de/schlagzeilen/index.rss',
   'https://www.spiegel.de/politik/index.rss',
