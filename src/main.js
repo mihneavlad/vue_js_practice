@@ -9,7 +9,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCaretLeft, faCaretRight, fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -28,7 +27,6 @@ Vue.use(IconsPlugin)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
   components: { App, Lumas },
   template: '<App/>'
 })

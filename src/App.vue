@@ -1,15 +1,39 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <router-view/>
+    <Lumas/>
   </div>
 </template>
 
+
 <script>
+
+import Lumas from "./components/Lumas";
+
 export default {
-  name: 'App'
+  name: 'app',
+  components: {
+    Lumas
+  }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style>
 #app {

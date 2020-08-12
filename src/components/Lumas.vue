@@ -45,10 +45,6 @@
 
 <!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
-
-let foo = document.querySelector('.container');
-console.log(foo);
-
 const feeds = [
   'https://www.spiegel.de/schlagzeilen/index.rss',
   'https://www.spiegel.de/politik/index.rss',
@@ -61,7 +57,7 @@ const feeds = [
 ];
 
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
+let feed = 'https://www.spiegel.de/schlagzeilen/index.rss';
 
 // const url = 'https://www.spiegel.de/schlagzeilen/index.rss';
 // const url1 = 'https://www.spiegel.de/politik/index.rss';
@@ -91,6 +87,8 @@ fetch(proxyUrl + feed)
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
       let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
+
+      console.log(parentSlide);
       // console.log(parentSlide);
       // console.log(parentSlide.firstElementChild.innerHTML);
       let img = parentSlide.firstElementChild;
@@ -113,6 +111,7 @@ fetch(proxyUrl + feed)
 console.log(feeds[0]);
 console.log('mai');
 export default {
+  name: "Lumas",
   data() {
     return {
       selected: feeds[0],
