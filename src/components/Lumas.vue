@@ -51,7 +51,7 @@ console.log(foo);
 
 const feeds = [
   'https://www.spiegel.de/schlagzeilen/index.rss',
-  'https://www.spiegel.de/politik/index.rss',
+  // 'https://www.spiegel.de/politik/index.rss',
   // 'https://www.spiegel.de/wirtschaft/index.rss',
   // 'https://www.spiegel.de/panorama/index.rss',
   // 'https://www.spiegel.de/kultur/index.rss',
@@ -67,9 +67,6 @@ const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 // const url1 = 'https://www.spiegel.de/politik/index.rss';
 
 feeds.forEach ((feed, index) => {
-  console.log(feed);
-  console.log(index);
-
 fetch(proxyUrl + feed)
   .then(response => response.text())
   .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
@@ -91,24 +88,20 @@ fetch(proxyUrl + feed)
       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
       let title = `${el.querySelector("title").innerHTML}`;
       let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
-      // console.log(parentSlide);
-      // console.log(parentSlide.firstElementChild.innerHTML);
       let img = parentSlide.firstElementChild;
       img.src = imageLink;
 
-      // let html =
-      // `
-      //   <h3 class="article-title mt-3">
-      //   <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-      //            ${title}
-      //   </a>
-      //   </h3>
-      //  `;
-      //  parentSlide.insertAdjacentHTML("beforeend", html);
+      let html =
+      `
+        <h3 class="article-title mt-3">
+        <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+                 ${title}
+        </a>
+        </h3>
+       `;
+       parentSlide.insertAdjacentHTML("beforeend", html);
     });
   });
-// }
-// }
 });
 console.log(feeds[0]);
 console.log('mai');
