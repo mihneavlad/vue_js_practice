@@ -11,7 +11,7 @@
            value-field="item"
            text-field="name"
            @change="onChange"
-
+           @getFeedName="getFeedName"
          ></b-form-select>
          <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
         <b-carousel
@@ -46,94 +46,98 @@
 <!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
 
-let foo = document.querySelector('.container');
-console.log(foo);
-
-const feeds = [
+let feeds = [
   'https://www.spiegel.de/schlagzeilen/index.rss',
-  // 'https://www.spiegel.de/politik/index.rss',
-  // 'https://www.spiegel.de/wirtschaft/index.rss',
-  // 'https://www.spiegel.de/panorama/index.rss',
-  // 'https://www.spiegel.de/kultur/index.rss',
-  // 'https://www.spiegel.de/netzwelt/index.rss',
-  // 'https://www.spiegel.de/wissenschaft/index.rss',
-  // 'https://www.spiegel.de/gesundheit/index.rss',
+  'https://www.spiegel.de/politik/index.rss',
+  'https://www.spiegel.de/wirtschaft/index.rss',
+  'https://www.spiegel.de/panorama/index.rss',
+  'https://www.spiegel.de/kultur/index.rss',
+  'https://www.spiegel.de/netzwelt/index.rss',
+  'https://www.spiegel.de/wissenschaft/index.rss',
+  'https://www.spiegel.de/gesundheit/index.rss',
 ];
 
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-
-// const url = 'https://www.spiegel.de/schlagzeilen/index.rss';
-// const url1 = 'https://www.spiegel.de/politik/index.rss';
-
-feeds.forEach ((feed, index) => {
-fetch(proxyUrl + feed)
-  .then(response => response.text())
-  .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-  .then(data => {
-    console.log(data);
-    const items = data.querySelectorAll("item");
-    let html = ``;
-
-    let tiles = document.querySelectorAll('.carousel-item');
-    tiles.forEach((tile, i) => {
-      tile.setAttribute('data-slide-index', `${i}`);
-    });
-
-    items.forEach((el, i) => {
-      if (i > 4) {
-        return;
-      }
-
-      let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
-      let title = `${el.querySelector("title").innerHTML}`;
-      let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
-      let img = parentSlide.firstElementChild;
-      img.src = imageLink;
-
-      let html =
-      `
-        <h3 class="article-title mt-3">
-        <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-                 ${title}
-        </a>
-        </h3>
-       `;
-       parentSlide.insertAdjacentHTML("beforeend", html);
-    });
-  });
-});
-console.log(feeds[0]);
-console.log('mai');
 export default {
   data() {
     return {
       selected: feeds[0],
         options: [
-          { item: feeds[0], name: 'Option A' },
-          { item: feeds[1], name: 'Option B' },
+          { item: this.getFeedName(0), name: this.getFeedName(0) },
+          { item: this.getFeedName(1), name: this.getFeedName(1) },
+          { item: this.getFeedName(2), name: this.getFeedName(2) },
+          { item: this.getFeedName(3), name: this.getFeedName(3) },
+          { item: this.getFeedName(4), name: this.getFeedName(4) },
+          { item: this.getFeedName(5), name: this.getFeedName(5) },
+          { item: this.getFeedName(6), name: this.getFeedName(6) },
+          { item: this.getFeedName(7), name: this.getFeedName(7) },
         ],
       slide: 0,
       sliding: null,
     }
   },
   methods: {
-    onChange(event) {
-      console.log('changed!');
-      console.log(event);
+    getFeedName(i) {
+      this.feed = feeds[i];
+      return this.feed;
     },
+
+    onChange(event) {
+      let feed = event
+      console.log(feed);
+      let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+      fetch(proxyUrl + feed)
+        .then(response => response.text())
+        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+        .then(data => {
+          console.log(data);
+          const items = data.querySelectorAll("item");
+          let html = ``;
+
+          let tiles = document.querySelectorAll('.carousel-item');
+          tiles.forEach((tile, i) => {
+            tile.setAttribute('data-slide-index', `${i}`);
+          });
+
+          items.forEach((el, i) => {
+            if (i > 4) {
+              return;
+            }
+
+            let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
+            let title = `${el.querySelector("title").innerHTML}`;
+            let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
+            let img = parentSlide.firstElementChild;
+            img.src = imageLink;
+
+            let html =
+            `
+              <h3 class="article-title mt-3">
+              <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+                       ${title}
+              </a>
+              </h3>
+             `;
+             parentSlide.insertAdjacentHTML("beforeend", html);
+          });
+        });
+    },
+
     onSlideStart(slide) {
       this.sliding = true
     },
     onSlideEnd(slide) {
       this.sliding = false
     }
-  }
+  },
+  // watch: {
+  //   name: function() {
+  //     return this.name;
+  //   }
+  // }
 }
 </script>
 
-  <!-- Add "scoped" attribute to limit
-  CSS to this component only -->
 <style lang="scss" scoped>
   @import 'node_modules/bootstrap/scss/bootstrap';
   @import 'node_modules/bootstrap-vue/src/index.scss';
