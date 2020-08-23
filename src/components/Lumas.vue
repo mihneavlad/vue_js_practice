@@ -29,22 +29,16 @@
             v-for="i in 5" :key="i"
             img-src="https://picsum.photos/520/250/?image=52"
           >
-          <p class="titlu"></p>
+          <a class="titlu" target="_blank" rel="noopener">
+          </a>
           </b-carousel-slide>
         </b-carousel>
       </div>
     </template>
   </div>
-
-  <!-- <VueRssParser :feedUrl="feedUrl" :name="name" :limit="limit"/> -->
 </div>
 </template>
 
-
-
-
-
-<!-- <script src="node_modules/@glidejs/glide/dist/glide.min.js"></script> -->
 <script>
 
 let feeds = [
@@ -90,9 +84,7 @@ export default {
         .then(response => response.text())
         .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
         .then(data => {
-          console.log(data);
           const items = data.querySelectorAll("item");
-          let html = ``;
 
           let tiles = document.querySelectorAll('.carousel-item');
           tiles.forEach((tile, i) => {
@@ -114,7 +106,17 @@ export default {
             let title = `${el.querySelector("title").innerHTML}`;
             let titleHolder = img.nextElementSibling.firstElementChild;
             titleHolder.innerHTML = title;
-            console.log(titleHolder);
+            titleHolder.href = `${el.querySelector("link").innerHTML}`
+
+
+                        // let link = document.createElement('a');
+                        // titleHolder.appendChild(link)
+                        // link.classList.add('article_link')
+                        // link.innerHTML = title;
+                        // link.href = `${el.querySelector("link").innerHTML}`;
+                        //
+                        // // titleHolder.innerHTML = title;
+
 
             // this.title = title;
             // let articleTitle = document.createElement("p");
