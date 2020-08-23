@@ -25,11 +25,12 @@
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
         >
-          <!-- Text slides with image -->
           <b-carousel-slide
             v-for="i in 5" :key="i"
             img-src="https://picsum.photos/520/250/?image=52"
-          ></b-carousel-slide>
+          >
+          <p class="titlu"></p>
+          </b-carousel-slide>
         </b-carousel>
       </div>
     </template>
@@ -60,7 +61,7 @@ let feeds = [
 export default {
   data() {
     return {
-      selected: feeds[0],
+      selected: this.getFeedName(0),
         options: [
           { item: this.getFeedName(0), name: this.getFeedName(0) },
           { item: this.getFeedName(1), name: this.getFeedName(1) },
@@ -80,7 +81,6 @@ export default {
       this.feed = feeds[i];
       return this.feed;
     },
-
     onChange(event) {
       let feed = event
       console.log(feed);
@@ -99,26 +99,50 @@ export default {
             tile.setAttribute('data-slide-index', `${i}`);
           });
 
+
           items.forEach((el, i) => {
             if (i > 4) {
               return;
             }
 
             let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
-            let title = `${el.querySelector("title").innerHTML}`;
             let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
             let img = parentSlide.firstElementChild;
             img.src = imageLink;
 
-            let html =
-            `
-              <h3 class="article-title mt-3">
-              <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-                       ${title}
-              </a>
-              </h3>
-             `;
-             parentSlide.insertAdjacentHTML("beforeend", html);
+
+            let title = `${el.querySelector("title").innerHTML}`;
+            let titleHolder = img.nextElementSibling.firstElementChild;
+            titleHolder.innerHTML = title;
+            console.log(titleHolder);
+
+            // this.title = title;
+            // let articleTitle = document.createElement("p");
+            // img.appendChild(articleTitle);
+            // articleTitle.innerHTML = 'text';
+            // console.log(articleTitle);1111111
+            // // console.log(title);
+
+            // let span = document.createElement('p');
+            // span.classList.add('titlu');
+            // span.innerHTML = 'hepa';
+            // span.style.color = 'blue';
+            // parentSlide.appendChild(span);
+            // console.log(parentSlide);
+            //
+            //
+            // let html =
+            // `
+            //   <h3 class="article-title mt-3">
+            //   <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
+            //            ${title}
+            //   </a>
+            //   </h3>
+            //  `;
+            //
+            // parentSlide.insertAdjacentHTML("beforeend", html);
+            // let check = document.querySelector('.article-title');
+            // console.log(check);
           });
         });
     },
