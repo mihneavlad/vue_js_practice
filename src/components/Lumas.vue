@@ -52,12 +52,14 @@ let feeds = [
   'https://www.spiegel.de/gesundheit/index.rss',
 ];
 
+
+
 export default {
   data() {
     return {
       selected: this.getFeedName(0),
         options: [
-          { item: this.getFeedName(0), name: this.getFeedName(0) },
+          { item: this.getFeedName(0), name: 'DER SPIEGEL - Schlagzeilen' },
           { item: this.getFeedName(1), name: this.getFeedName(1) },
           { item: this.getFeedName(2), name: this.getFeedName(2) },
           { item: this.getFeedName(3), name: this.getFeedName(3) },
@@ -97,54 +99,18 @@ export default {
               return;
             }
 
+            // const feedTitle = data.querySelector("title");
+            // console.log(feedTitle);
+
             let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
             let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
             let img = parentSlide.firstElementChild;
             img.src = imageLink;
 
-
             let title = `${el.querySelector("title").innerHTML}`;
             let titleHolder = img.nextElementSibling.firstElementChild;
             titleHolder.innerHTML = title;
             titleHolder.href = `${el.querySelector("link").innerHTML}`
-
-
-                        // let link = document.createElement('a');
-                        // titleHolder.appendChild(link)
-                        // link.classList.add('article_link')
-                        // link.innerHTML = title;
-                        // link.href = `${el.querySelector("link").innerHTML}`;
-                        //
-                        // // titleHolder.innerHTML = title;
-
-
-            // this.title = title;
-            // let articleTitle = document.createElement("p");
-            // img.appendChild(articleTitle);
-            // articleTitle.innerHTML = 'text';
-            // console.log(articleTitle);1111111
-            // // console.log(title);
-
-            // let span = document.createElement('p');
-            // span.classList.add('titlu');
-            // span.innerHTML = 'hepa';
-            // span.style.color = 'blue';
-            // parentSlide.appendChild(span);
-            // console.log(parentSlide);
-            //
-            //
-            // let html =
-            // `
-            //   <h3 class="article-title mt-3">
-            //   <a href="${el.querySelector("link").innerHTML}" target="_blank" rel="noopener">
-            //            ${title}
-            //   </a>
-            //   </h3>
-            //  `;
-            //
-            // parentSlide.insertAdjacentHTML("beforeend", html);
-            // let check = document.querySelector('.article-title');
-            // console.log(check);
           });
         });
     },
@@ -156,11 +122,6 @@ export default {
       this.sliding = false
     }
   },
-  // watch: {
-  //   name: function() {
-  //     return this.name;
-  //   }
-  // }
 }
 </script>
 
