@@ -1,6 +1,5 @@
 <template>
-<div class="hello">
-  <!-- <h1>{{ msg }}</h1> -->
+<div class="lumas">
   <div id="app">
     <template>
       <div class="container">
@@ -14,7 +13,7 @@
            @change="onChange"
            @getFeedName="getFeedName"
          ></b-form-select>
-         <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+         <div class="mt-3"><strong>{{ selected }}</strong></div>
         <b-carousel
           id="carousel-1"
           v-model="slide"
@@ -50,139 +49,83 @@ let feeds = [
   'https://www.spiegel.de/kultur/index.rss',
   'https://www.spiegel.de/netzwelt/index.rss',
   'https://www.spiegel.de/wissenschaft/index.rss',
-  'https://www.spiegel.de/gesundheit/index.rss',
-];
-
-
+  'https://www.spiegel.de/gesundheit/index.rss'
+]
 
 export default {
-  data() {
+  data () {
     return {
-
-      // selected: this.getFeedName(  'https://www.spiegel.de/schlagzeilen/index.rss'),
-      selected: 'A',
-        options: [
-          { item: 'A', name: this.getFoo() },
-          // { item: this.getFeed('https://www.spiegel.de/schlagzeilen/index.rss'), name: 'DER SPIEGEL - Schlagzeilen' },
-          { item: this.getFeedName(0), name: this.getFeedName(0) },
-          { item: this.getFeedName(1), name: this.getFeedName(1) },
-          { item: this.getFeedName(2), name: this.getFeedName(2) },
-          { item: this.getFeedName(3), name: this.getFeedName(3) },
-          { item: this.getFeedName(4), name: this.getFeedName(4) },
-          { item: this.getFeedName(5), name: this.getFeedName(5) },
-          { item: this.getFeedName(6), name: this.getFeedName(6) },
-          { item: this.getFeedName(7), name: this.getFeedName(7) },
-        ],
+      selected: 'No feed selected!',
+      options: [
+        { item: 'No feed selected!', name: this.suggestChoice() },
+        { item: this.getFeedName(0), name: this.getFeedName(0) },
+        { item: this.getFeedName(1), name: this.getFeedName(1) },
+        { item: this.getFeedName(2), name: this.getFeedName(2) },
+        { item: this.getFeedName(3), name: this.getFeedName(3) },
+        { item: this.getFeedName(4), name: this.getFeedName(4) },
+        { item: this.getFeedName(5), name: this.getFeedName(5) },
+        { item: this.getFeedName(6), name: this.getFeedName(6) },
+        { item: this.getFeedName(7), name: this.getFeedName(7) }
+      ],
       slide: 0,
-      sliding: null,
+      sliding: null
     }
   },
   methods: {
-    getFeedName(i) {
-      this.feed = feeds[i];
-      return this.feed;
+    getFeedName (i) {
+      this.feed = feeds[i]
+      return this.feed
     },
 
-    getFoo() {
-      return 'Select your favorite feed:';
+    suggestChoice () {
+      return 'Select your favorite feed!'
     },
 
-
-
-    getFeed(feed) {
-      console.log('muie');
-      console.log(feed);
-      let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    getFeed (feed) {
+      let proxyUrl = 'https://cors-anywhere.herokuapp.com/'
 
       fetch(proxyUrl + feed)
         .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+        .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
         .then(data => {
-          const items = data.querySelectorAll("item");
+          const items = data.querySelectorAll('item')
 
-          let tiles = document.querySelectorAll('.carousel-item');
+          let tiles = document.querySelectorAll('.carousel-item')
           tiles.forEach((tile, i) => {
-            tile.setAttribute('data-slide-index', `${i}`);
-          });
+            tile.setAttribute('data-slide-index', `${i}`)
+          })
 
-          const feedTitle = data.querySelector("title").innerHTML;
-          this.feedTitle = feedTitle;
+          const feedTitle = data.querySelector('title').innerHTML
+          this.feedTitle = feedTitle
 
           items.forEach((el, i) => {
             if (i > 4) {
-              return;
+              return
             }
 
+            let imageLink = `${el.querySelector('enclosure')['attributes'].getNamedItem('url').value}`
+            let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]')
+            let img = parentSlide.firstElementChild
+            img.src = imageLink
 
-            let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
-            let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
-            let img = parentSlide.firstElementChild;
-            img.src = imageLink;
-
-            let title = `${el.querySelector("title").innerHTML}`;
-            let titleHolder = img.nextElementSibling.firstElementChild;
-            titleHolder.innerHTML = title;
-            titleHolder.href = `${el.querySelector("link").innerHTML}`
-
-            console.log(this.feedTitle);
-          });
-          //
-          // console.log(this.feedTitle);
-          // console.log('forof');
-          // console.log(feedTitle);
-        });
+            let title = `${el.querySelector('title').innerHTML}`
+            let titleHolder = img.nextElementSibling.firstElementChild
+            titleHolder.innerHTML = title
+            titleHolder.href = `${el.querySelector('link').innerHTML}`
+          })
+        })
+    },
+    onChange (feed) {
+      this.getFeed(feed)
     },
 
-    onChange(feed) {
-      this.getFeed(feed);
-      // console.log(feed);
-      // let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-      //
-      // fetch(proxyUrl + feed)
-      //   .then(response => response.text())
-      //   .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-      //   .then(data => {
-      //     const items = data.querySelectorAll("item");
-      //
-      //     let tiles = document.querySelectorAll('.carousel-item');
-      //     tiles.forEach((tile, i) => {
-      //       tile.setAttribute('data-slide-index', `${i}`);
-      //     });
-      //
-      //     const feedTitle = data.querySelector("title").innerHTML;
-      //     this.feedTitle = feedTitle;
-      //
-      //     items.forEach((el, i) => {
-      //       if (i > 4) {
-      //         return;
-      //       }
-      //
-      //
-      //       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
-      //       let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
-      //       let img = parentSlide.firstElementChild;
-      //       img.src = imageLink;
-      //
-      //       let title = `${el.querySelector("title").innerHTML}`;
-      //       let titleHolder = img.nextElementSibling.firstElementChild;
-      //       titleHolder.innerHTML = title;
-      //       titleHolder.href = `${el.querySelector("link").innerHTML}`
-      //     });
-      //
-      //     console.log(this.feedTitle);
-      //     console.log('forof');
-      //     console.log(feedTitle);
-      //     return this.feedTitle;
-      //   });
-    },
-
-    onSlideStart(slide) {
+    onSlideStart (slide) {
       this.sliding = true
     },
-    onSlideEnd(slide) {
+    onSlideEnd (slide) {
       this.sliding = false
     }
-  },
+  }
 }
 </script>
 
@@ -192,5 +135,15 @@ export default {
   #app {
     text-align: center;
   }
-
+  .titlu {
+    font-size: 1.5rem;
+    color: white;
+    outline: none;
+    text-decoration: none;
+    text-shadow: #ccff00 1px 0 10px;
+  }
+  .titlu:hover {
+    color: white;
+    text-decoration: none;
+  }
 </style>
