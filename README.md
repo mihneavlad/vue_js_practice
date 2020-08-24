@@ -1,6 +1,4 @@
-# lumas
-
-> A Vue.js project
+# l-u-m-a-s-v-u-e
 
 ## Build Setup
 
@@ -8,5 +6,5 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# The app will run at http://localhost:8080/
 npm run dev
