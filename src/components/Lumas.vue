@@ -10,6 +10,7 @@
            class="mb-3"
            value-field="item"
            text-field="name"
+           @getFeed="getFeed"
            @change="onChange"
            @getFeedName="getFeedName"
          ></b-form-select>
@@ -57,9 +58,13 @@ let feeds = [
 export default {
   data() {
     return {
-      selected: this.getFeedName(0),
+
+      // selected: this.getFeedName(  'https://www.spiegel.de/schlagzeilen/index.rss'),
+      selected: 'A',
         options: [
-          { item: this.getFeedName(0), name: 'DER SPIEGEL - Schlagzeilen' },
+          { item: 'A', name: this.getFoo() },
+          // { item: this.getFeed('https://www.spiegel.de/schlagzeilen/index.rss'), name: 'DER SPIEGEL - Schlagzeilen' },
+          { item: this.getFeedName(0), name: this.getFeedName(0) },
           { item: this.getFeedName(1), name: this.getFeedName(1) },
           { item: this.getFeedName(2), name: this.getFeedName(2) },
           { item: this.getFeedName(3), name: this.getFeedName(3) },
@@ -77,8 +82,15 @@ export default {
       this.feed = feeds[i];
       return this.feed;
     },
-    onChange(event) {
-      let feed = event
+
+    getFoo() {
+      return 'Select your favorite feed:';
+    },
+
+
+
+    getFeed(feed) {
+      console.log('muie');
       console.log(feed);
       let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
@@ -93,14 +105,14 @@ export default {
             tile.setAttribute('data-slide-index', `${i}`);
           });
 
+          const feedTitle = data.querySelector("title").innerHTML;
+          this.feedTitle = feedTitle;
 
           items.forEach((el, i) => {
             if (i > 4) {
               return;
             }
 
-            // const feedTitle = data.querySelector("title");
-            // console.log(feedTitle);
 
             let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
             let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
@@ -111,8 +123,57 @@ export default {
             let titleHolder = img.nextElementSibling.firstElementChild;
             titleHolder.innerHTML = title;
             titleHolder.href = `${el.querySelector("link").innerHTML}`
+
+            console.log(this.feedTitle);
           });
+          //
+          // console.log(this.feedTitle);
+          // console.log('forof');
+          // console.log(feedTitle);
         });
+    },
+
+    onChange(feed) {
+      this.getFeed(feed);
+      // console.log(feed);
+      // let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      //
+      // fetch(proxyUrl + feed)
+      //   .then(response => response.text())
+      //   .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+      //   .then(data => {
+      //     const items = data.querySelectorAll("item");
+      //
+      //     let tiles = document.querySelectorAll('.carousel-item');
+      //     tiles.forEach((tile, i) => {
+      //       tile.setAttribute('data-slide-index', `${i}`);
+      //     });
+      //
+      //     const feedTitle = data.querySelector("title").innerHTML;
+      //     this.feedTitle = feedTitle;
+      //
+      //     items.forEach((el, i) => {
+      //       if (i > 4) {
+      //         return;
+      //       }
+      //
+      //
+      //       let imageLink = `${el.querySelector("enclosure")['attributes'].getNamedItem('url').value}`;
+      //       let parentSlide = document.querySelector('[data-slide-index="' + `${i}` + '"]');
+      //       let img = parentSlide.firstElementChild;
+      //       img.src = imageLink;
+      //
+      //       let title = `${el.querySelector("title").innerHTML}`;
+      //       let titleHolder = img.nextElementSibling.firstElementChild;
+      //       titleHolder.innerHTML = title;
+      //       titleHolder.href = `${el.querySelector("link").innerHTML}`
+      //     });
+      //
+      //     console.log(this.feedTitle);
+      //     console.log('forof');
+      //     console.log(feedTitle);
+      //     return this.feedTitle;
+      //   });
     },
 
     onSlideStart(slide) {
