@@ -6,5 +6,5 @@
 # install dependencies
 npm install
 
-# The app will run at http://localhost:8080/
+# compiles and hot-reloads for development at http://localhost:8080/
 npm run dev
